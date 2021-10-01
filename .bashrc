@@ -118,13 +118,18 @@ fi
 
 parse_git_branch()
 {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ <\1> /'
+  if git rev-parse --show-toplevel 2> /dev/null | grep -q '^/home/jm$'
+  then
+    :
+  else
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ <\1> /'
+  fi
 }
 
 breadcrumbs_in_title()
 {
   PROMPT_PATH='\w/'
-  echo -ne "\033]0;${PROMPT_PATH@P}\a"
+  echo -e "\033]0;${PROMPT_PATH@P}\a"
 }
 
 WHITE='\[\033[00m\]'
@@ -149,8 +154,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 TODAY="$(date +'%m%d%y')"
-LAST="$(cat .nvmcheck 2>/dev/null | egrep -o -m 1 [[:digit:]]+)"
-if [ $TODAY != $LAST ]
+LAST="$(cat /home/jm/.nvmcheck 2>/dev/null | egrep -o -m 1 [[:digit:]]+)"
+if [ "$TODAY" != "$LAST" ]
   then
     echo "Checking for node updates"
     NODE_LOCAL="$(nvm ls | egrep -o -m 1 v[[:digit:]]+.[[:digit:]]+.[[:digit:]]+)"
