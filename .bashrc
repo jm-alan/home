@@ -129,7 +129,7 @@ breadcrumbs_in_title()
 
 WHITE='\[\033[00m\]'
 TEALBLUE='\[\033[01;36m\]'
-GOLD='\[\033[00;33m\]'
+GOLD='\[\033[01;33m\]'
 RED='\[\033[01;31m\]'
 
 export PS1="${debian_chroot:+($debian_chroot)}\$(breadcrumbs_in_title)$RED\u$TEALBLUE:$GOLD\$(parse_git_branch)$WHITE$ "
